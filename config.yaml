@@ -9,7 +9,7 @@ log-level: info
 external-controller: 127.0.0.1:9090
 
 #---------------------------------------------------#
-# 节点列表 (请确保这里的缩进是两个空格)
+# 节点列表
 #---------------------------------------------------#
 proxies:
   - { name: '🇭🇰 香港_01', type: ss, server: ft-hk-xygh-by.51feitu.com, port: 10001, cipher: chacha20-ietf-poly1305, password: 6a8ce4f5-5450-4bcd-bde5-2ed046b2d38c, udp: true }
