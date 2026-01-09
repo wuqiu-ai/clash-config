@@ -1,0 +1,38 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+# 节点列表
+proxies:
+    - { name: '🇭🇰 香港_01', type: ss, server: ft-hk-xygh-by.51feitu.com, port: 10001, cipher: chacha20-ietf-poly1305, password: 6a8ce4f5-5450-4bcd-bde5-2ed046b2d38c, udp: true }
+    - { name: '🇭🇰 香港_02', type: vmess, server: ft-hk-xygh-by.51feitu.com, port: 10002, uuid: 6a8ce4f5-5450-4bcd-bde5-2ed046b2d38c, alterId: 0, cipher: auto, udp: true, network: ws }
+    # ... (请在此处粘贴您提供的其余所有节点)
+    - { name: '🇨🇿 捷克', type: ss, server: ft-qt-xygh-by.51feitu.com, port: 21031, cipher: chacha20-ietf-poly1305, password: 6a8ce4f5-5450-4bcd-bde5-2ed046b2d38c, udp: true }
+
+# 策略组
+proxy-groups:
+  - name: 🚀 自动选择
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    proxies:
+      - 🌍 节点选择
+  - name: 🌍 节点选择
+    type: select
+    proxies:
+      - 🚀 自动选择
+      - DIRECT
+      # 下面是所有节点的名称（Clash 会自动匹配）
+      - 🇭🇰 香港_01
+      - 🇭🇰 香港_02
+      # ... 手动添加或使用正则表达式匹配
+
+# 规则
+rules:
+  - DOMAIN-SUFFIX,google.com,🌍 节点选择
+  - DOMAIN-KEYWORD,github,🌍 节点选择
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍 节点选择
